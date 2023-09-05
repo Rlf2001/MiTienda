@@ -1,0 +1,52 @@
+<script src="https://www.paypal.com/sdk/js?client-id=AcgilTFIklsCOZeQA1d4GbrJ01WIZSfW3fBAAHDL7hKaiZ6fCdlp8RSl1dZAqDidBBYZ440CQIGUIVsK&currency=EUR"></script>
+<div class="cart-container">
+    {% if request.session.carrito.items %}
+    <table class="cart-table">
+        <thead>
+            <tr>
+                <th>Producto</th>
+                <th>Precio</th>
+                <th>Cantidad</th>
+                <th>Subtotal</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for key, value in request.session.carrito.items %}
+            <tr>
+                <td>{{ value.nombre }}</td>
+                <td>{{ value.precio }}</td>
+                <td>{{ value.cantidad }}</td>
+                <td>{{ value.subtotal }}</td>
+                <td class="cart-actions">
+                    <a href="agregar/{{ key }}">+</a>
+                    <a href="sacar/{{key}}">-</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <div class="cart-total d-flex justify-content-between align-items-center">
+        Total a Pagar: {{total_carrito}}
+        <a class="btn btn-danger" href="limpiar/">Limpiar</a>
+    </div>
+    <br>
+    <div id="paypal-button-container"></div>
+    {% else %}
+    <p>No hay productos en el carrito</p>
+    {% endif %}
+</div>
+<script>
+    var totalCarrito = parseFloat('{{total_carrito}}'.replace(',', '.'));
+    paypal.Buttons({
+        createOrder: function(data, actions) {
+            return actions.order.create({
+                purchase_units: [{
+                    amount: {
+                        value: totalCarrito
+                    }
+                }]
+            });
+        },
+    }).render('#paypal-button-container');
+</script>

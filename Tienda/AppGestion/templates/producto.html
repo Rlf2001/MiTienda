@@ -1,0 +1,70 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Productos</title>
+    <link type="text/css" rel="stylesheet" href='{% static "css/formulario.css" %}'>
+    <link type="text/css" rel="stylesheet" href='{% static "css/inicio.css" %}'>
+    <link rel="icon" type="image/x-icon" href='{% static "imagenes/favicon.ico" %}'>
+    <script type="text/javascript" src='{% static "js/script.js" %}'></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+
+<body>
+    <div id="navbar">
+        <a href="/tienda">Tienda</a>
+        <a href="/gestion">Gestion</a>
+        <a href="http://127.0.0.1:8000/"><i class="fas fa-home"></i></a>
+    </div>
+    <div class="container">
+        <div class="search-button-container">
+            <div class="search-container">
+                <form action="/gestion/buscar/" method="GET">
+                    <input type="text" name="q" placeholder="Buscar productos...">
+                    <button type="submit">Buscar</button>
+                </form>
+            </div>
+            <div class="button-container">
+                <a href="/gestion/insertar/">
+                    <button class="insert-button">Insertar Nuevo Producto</button>
+                </a>
+            </div>
+        </div>
+        <table class="product-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Imagen</th>
+                    <th>Precio</th>
+                    <th>Modificar / Eliminar</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for producto in object_list %}
+                <tr>
+                    <td>{{ producto.id }}</td>
+                    <td>{{ producto.nombre }}</td>
+                    <td>{{ producto.imagen1 }}</td>
+                    <td>{{ producto.precio }}</td>
+                    <td>
+                        <a href="/gestion/modificar/{{ producto.id }}">
+                            <button class="modify-button">Modificar</button>
+                        </a>
+                        <a href="/gestion/eliminar/{{ producto.id }}">
+                            <button class="delete-button">Eliminar</button>
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+
+</html>
