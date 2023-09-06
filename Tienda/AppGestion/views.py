@@ -1,13 +1,14 @@
 from django.shortcuts import render, redirect
 from django.db.models import Q
 from .models import Producto
+from django.views.generic import ListView,DetailView
 
 def gestion(request):
     return render(request,'gestion.html')
 
-def productos(request):
-    productos = Producto.objects.all()
-    return render(request, 'producto.html', {'object_list': productos})
+# def productos(request):
+#     productos = Producto.objects.all()
+#     return render(request, 'producto.html', {'object_list': productos})
 
 def buscar_productos(request):
     query = request.GET.get('q')
@@ -34,7 +35,7 @@ def insertar(request):
 def eliminar(request, id):
     producto = Producto.objects.get(id=id)
     producto.delete()
-    return redirect('/')
+    return redirect('productos')
 
 def modificar(request, id):
     producto = Producto.objects.get(id=id)
@@ -46,3 +47,15 @@ def modificar(request, id):
         return redirect('productos')
     return render(request, 'modificar.html', {'producto': producto})
     
+class GestionListView(ListView):
+        model=Producto
+        template_name='producto.html'
+        def get_queryset(self):
+            return Producto.objects.all()
+
+class GestionDetailView(DetailView):
+    model=Producto
+    template_name='detalle.html'
+    def get_object(self):
+        objeto=self.model.objects.get(id=self.kwargs['id'])
+        return objeto

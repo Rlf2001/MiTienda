@@ -42,6 +42,7 @@
                     <th>Nombre</th>
                     <th>Imagen</th>
                     <th>Precio</th>
+                    <th>Detalles</th>
                     <th>Modificar / Eliminar</th>
                 </tr>
             </thead>
@@ -52,6 +53,13 @@
                     <td>{{ producto.nombre }}</td>
                     <td>{{ producto.imagen1 }}</td>
                     <td>{{ producto.precio }}</td>
+                    <td>
+                        <div class="details">
+                            <a href="detalle/{{ producto.id }}">
+                                <button class="modify-button">Detalles</button>
+                            </a>
+                        </div>
+                    </td>
                     <td>
                         <a href="/gestion/modificar/{{ producto.id }}">
                             <button class="modify-button">Modificar</button>
